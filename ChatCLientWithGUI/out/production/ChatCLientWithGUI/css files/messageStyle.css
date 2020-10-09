@@ -1,0 +1,10 @@
+.messageStyle{
+    -fx-font-family: "MS Outlook" ;
+    -fx-font-size: 18;
+    -fx-text-fill: white;
+    -fx-padding: 18;
+    -fx-background-color: dodgerblue;
+    -fx-background-radius: 18;
+    -fx-spacing: 10;
+    -fx-alignment: baseline-right;
+}
