@@ -1,16 +1,15 @@
 package sample;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -24,6 +23,8 @@ public class SignUpPageController {
     Button signUpButton;
     @FXML
     Hyperlink loginLink;
+    @FXML
+    Label errorLabel;
     private String userName,password;
 
     public void handleButtonAction(ActionEvent event) throws IOException {
@@ -34,7 +35,17 @@ public class SignUpPageController {
                 if (userName != null && password != null) {
                     boolean success = ChatClient.getInstance().signUp(userName, password);
                     if (success) {
-                        changeScene("mainPage.fxml", event);
+                        changeScene("/fxml files/mainPage.fxml", event);
+                    }
+                    else{
+                        PauseTransition visiblePause = new PauseTransition(
+                                Duration.seconds(2)
+                        );
+                        errorLabel.setVisible(true);
+                        visiblePause.setOnFinished(
+                                newEvent -> errorLabel.setVisible(false)
+                        );
+                        visiblePause.play();
                     }
                 }
             }
@@ -55,7 +66,7 @@ public class SignUpPageController {
 
     public void handleLoginLink(ActionEvent event) throws IOException {
         if(event.getSource()==loginLink){
-            changeScene("loginPage.fxml",event);
+            changeScene("/fxml files/loginPage.fxml",event);
         }
     }
 }
