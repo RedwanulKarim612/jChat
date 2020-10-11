@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -7,13 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class LoginController{
@@ -25,19 +23,10 @@ public class LoginController{
     Button loginButton;
     @FXML
     Hyperlink signUpLink;
+    @FXML
+    Label errorLabel;
     private String userName,password;
-    boolean loginDone=false;
-    //    public void controlLogin(ActionEvent event) throws IOException {
-//        while (!loginDone) {
-//            loginButton.setOnAction(event1 -> {
-//                try {
-//                    handleButtonAction(event1);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//        }
-//    }
+
     private void getInfo(){
         userName=userNameTextField.getText();
         password=passwordField.getText();
@@ -50,7 +39,17 @@ public class LoginController{
                 if (userName != null && password != null) {
                     boolean success = ChatClient.getInstance().login(userName, password);
                     if (success) {
-                        changeScene("mainPage.fxml", event);
+                        changeScene("/fxml files/mainPage.fxml", event);
+                    }
+                    else{
+                        PauseTransition visiblePause = new PauseTransition(
+                                Duration.seconds(2)
+                        );
+                        errorLabel.setVisible(true);
+                        visiblePause.setOnFinished(
+                                newEvent -> errorLabel.setVisible(false)
+                        );
+                        visiblePause.play();
                     }
                 }
             }
@@ -67,6 +66,6 @@ public class LoginController{
 
     public void handleSignUpLink(ActionEvent event) throws IOException {
         if(event.getSource()==signUpLink)
-        changeScene("signUpPage.fxml",event);
+        changeScene("/fxml files/signUpPage.fxml",event);
     }
 }
