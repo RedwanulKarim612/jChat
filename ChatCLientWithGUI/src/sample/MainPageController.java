@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MainPageController {
     @FXML
-    public TextArea searchText;
+    public TextField searchText;
     @FXML
     public Button searchButton;
     @FXML
@@ -68,36 +68,32 @@ public class MainPageController {
 
     }
     public void handleSearch(ActionEvent event) throws IOException {
-        if(event.getSource().equals(searchButton)){
-            String toSearch=searchText.getText().trim();
+        if(event.getSource().equals(searchButton)) {
+            String toSearch = searchText.getText().trim();
             System.out.println(toSearch);
-            for(Chat chat:ChatData.getInstance().getChatDataList()){
-                if(chat.getFriendUserName().equals(toSearch)){
-                    chatList.getSelectionModel().select(chat);
-                    friendUserName.setText(toSearch);
-                    chatVBox.getChildren().clear();
-                    for(String str:chat.messages){
-                        Label msg=new Label(str);
-                        msg.getStyleClass().clear();
-                        msg.getStylesheets().add(getClass().getResource("messageStyle.css").toExternalForm());
-                        msg.getStyleClass().add("messageStyle");
-//            msg.setMaxWidth(400);
-                        msg.setWrapText(true);
-                        chatVBox.getChildren().add(msg);
-                    }
+            if (!toSearch.isEmpty()) {
+                if (chatList.getSelectionModel().getSelectedItem() != null && chatList.getSelectionModel().getSelectedItem().getFriendUserName().equals(toSearch)) {
+                    System.out.println("same");
                     return;
                 }
-            }
-            if(!toSearch.isEmpty()){
-                if(ChatClient.getInstance().searchUser(toSearch)){
-                    System.out.println("user found");
-                    Chat newChat= new Chat(toSearch);
-                    chatVBox.getChildren().clear();
-                    chatList.getItems().add(newChat);
-                    friendUserName.setText(toSearch);
-                    chatList.getSelectionModel().select(newChat);
-                    ChatData.getInstance().addChat(newChat);
+                for (Chat chat : ChatData.getInstance().getChatDataList()) {
+                    if (chat.getFriendUserName().equals(toSearch)) {
+                        chatList.getSelectionModel().select(chat);
+                        loadMessageToVBox(chat);
+                        return;
+                    }
                 }
+
+                    if (ChatClient.getInstance().searchUser(toSearch)) {
+                        System.out.println("user found");
+                        Chat newChat = new Chat(toSearch);
+                        chatVBox.getChildren().clear();
+                        chatList.getItems().add(newChat);
+                        friendUserName.setText(toSearch);
+                        chatList.getSelectionModel().select(newChat);
+                        ChatData.getInstance().addChat(newChat);
+                    }
+
             }
         }
     }
@@ -107,7 +103,7 @@ public class MainPageController {
             if(toSend.isEmpty()) return ;
             System.out.println(toSend);
             Chat receiver=chatList.getSelectionModel().getSelectedItem();
-            System.out.println(receiver.getFriendUserName());
+//            System.out.println(receiver.getFriendUserName());
             ChatClient.getInstance().send(receiver.getFriendUserName(),toSend);
             Label newLabel=new Label(toSend);
             newLabel.getStyleClass().clear();
@@ -152,27 +148,29 @@ public class MainPageController {
         if(chat1.getFriendUserName().equals(friendUserName.getText())) return ;
         friendUserName.setText(chat1.getFriendUserName());
         chatVBox.getChildren().clear();
-                for (int i = 0; i < chat1.messages.size(); i++) {
-                    String str = chat1.messages.get(i);
-                    Label msg = new Label(str);
-                    msg.getStyleClass().clear();
-                    msg.getStylesheets().add(getClass().getResource("messageStyle.css").toExternalForm());
-                    msg.getStyleClass().add("messageStyle");
-//            msg.setMaxWidth(400);
-                    msg.setWrapText(true);
-                    HBox hBox = new HBox();
-                    hBox.getChildren().add(msg);
-                    if (chat1.sender.get(i).equals(chat1.getFriendUserName())) hBox.setAlignment(Pos.BASELINE_LEFT);
-                    else hBox.setAlignment(Pos.BASELINE_RIGHT);
-                    chatVBox.getChildren().add(hBox);
-                    scrollPane.vvalueProperty().bind(chatVBox.heightProperty());
-                }
+        loadMessageToVBox(chat1);
+    }
 
+    private void loadMessageToVBox(Chat chat) {
+        for (int i = 0; i < chat.messages.size(); i++) {
+            String str = chat.messages.get(i);
+            Label msg = new Label(str);
+            msg.getStyleClass().clear();
+            msg.getStylesheets().add(getClass().getResource("messageStyle.css").toExternalForm());
+            msg.getStyleClass().add("messageStyle");
+            msg.setWrapText(true);
+            HBox hBox = new HBox();
+            hBox.getChildren().add(msg);
+            if (chat.sender.get(i).equals(chat.getFriendUserName())) hBox.setAlignment(Pos.BASELINE_LEFT);
+            else hBox.setAlignment(Pos.BASELINE_RIGHT);
+            chatVBox.getChildren().add(hBox);
+            scrollPane.vvalueProperty().bind(chatVBox.heightProperty());
+        }
     }
 
     public void handleLogOff(MouseEvent event) throws IOException {
         ChatData.getInstance().getChatDataList().clear();
-        Parent view= FXMLLoader.load(getClass().getResource("loginPage.fxml"));
+        Parent view= FXMLLoader.load(getClass().getResource("/fxml files/loginPage.fxml"));
         Scene scene=new Scene(view);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
