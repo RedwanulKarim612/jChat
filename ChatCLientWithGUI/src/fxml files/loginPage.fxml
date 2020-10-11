@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LoginController">
+   <children>
+      <AnchorPane prefHeight="619.0" prefWidth="413.0" style="-fx-background-color: #5D0DDF#5D0DDF;">
+         <children>
+            <Label layoutX="77.0" layoutY="218.0" prefHeight="67.0" prefWidth="266.0" style="-fx-font-size: 40;" text="Always Stay" />
+            <Label layoutX="77.0" layoutY="285.0" style="-fx-font-size: 40;" text="connected" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="415.0" prefHeight="619.0" prefWidth="400.0">
+         <children>
+            <TextField fx:id="userNameTextField" layoutX="97.0" layoutY="213.0" prefHeight="26.0" prefWidth="213.0" promptText="User Name" />
+            <PasswordField fx:id="passwordField" layoutX="97.0" layoutY="266.0" prefHeight="26.0" prefWidth="213.0" promptText="Password" />
+            <Button fx:id="loginButton" layoutX="146.0" layoutY="337.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="54.0" prefWidth="116.0" style="-fx-background-radius: 30; -fx-font-size: 20;" text="Login" />
+            <Hyperlink fx:id="signUpLink" layoutX="131.0" layoutY="404.0" onAction="#handleSignUpLink" text="New here?SIgn up for free" />
+            <Label fx:id="errorLabel" layoutX="119.0" layoutY="310.0" prefHeight="17.0" prefWidth="170.0" text="Wrong username or password" textFill="#fc0505" visible="false" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
