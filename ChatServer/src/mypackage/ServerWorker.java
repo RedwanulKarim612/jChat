@@ -14,10 +14,12 @@ public class ServerWorker extends Thread{
     private String login;
     private OutputStream outputStream;
     private HashSet<String> topicSet=new HashSet<>();
+    private DataSource dataSource=new DataSource();
 
     public ServerWorker(Server server, Socket clientSocket) {
         this.server=server;
         this.clientSocket = clientSocket;
+        dataSource.open();
     }
 
     public String getLogin(){
@@ -86,12 +88,11 @@ public class ServerWorker extends Thread{
             String username=tokens[1];
             String password=tokens[2];
             String msg=null;
-            if(!DataSource.getInstance().doesUserExists(username)) {
+            if(!dataSource.doesUserExists(username)) {
                 msg="signup successful\n";
                 this.login=username;
-                DataSource.getInstance().addNewUser(username,password);
-                DataSource.getInstance().createNewContactTable(username);
-                DataSource.getInstance().createMessageTable(username);
+                dataSource.addNewUser(username,password);
+                dataSource.createMessageTable(username);
             }
             else msg="signup unsuccessful\n";
             this.send(msg);
@@ -103,7 +104,7 @@ public class ServerWorker extends Thread{
             String username=tokens[1];
             String password=tokens[2];
             String msg=null;
-            if(DataSource.getInstance().isLoginValid(username,password) ){
+            if(dataSource.isLoginValid(username,password) ){
                 msg="login successful\n";
                 this.send(msg);
                 this.login=username;
@@ -156,7 +157,7 @@ public class ServerWorker extends Thread{
                 }
             }
         }
-        DataSource.getInstance().addMessage(login,sendTo,body);
+        dataSource.addMessage(login,sendTo,body);
     }
 
 
@@ -168,24 +169,25 @@ public class ServerWorker extends Thread{
         server.removeWorker(this);
         for(ServerWorker worker : workerList)
 //            System.out.println(worker.getLogin()+"\n");
-        send("logoff\n");
+            send("logoff\n");
+        dataSource.close();
     }
 
 
     private void send(String msg) throws IOException {
         this.outputStream.write(msg.getBytes());
-//        System.out.println(msg);
+        System.out.println(msg);
     }
 
     private void handleSearch(String tokens[]) throws IOException {
         String msg=null;
-        if(DataSource.getInstance().doesUserExists(tokens[1])) msg="found\n";
+        if(dataSource.doesUserExists(tokens[1])) msg="found\n";
         else msg="not found\n";
         this.send(msg);
     }
 
     private void sendInfoToUser(String username) throws IOException, SQLException {
-        List<Message>messages = DataSource.getInstance().getAllMessages(username);
+        List<Message>messages = dataSource.getAllMessages(username);
         for(Message message:messages){
             String cmd="msg "+message.getFriendUserName()+" " +message.getSender()+" " +message.getChat()+"\n";
             String []tokens=cmd.split(" ",4);
