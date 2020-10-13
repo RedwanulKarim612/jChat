@@ -65,7 +65,6 @@ public class MainPageController {
                 return cell;
             }
         });
-
     }
     public void handleSearch(ActionEvent event) throws IOException {
         if(event.getSource().equals(searchButton)) {
@@ -79,6 +78,7 @@ public class MainPageController {
                 for (Chat chat : ChatData.getInstance().getChatDataList()) {
                     if (chat.getFriendUserName().equals(toSearch)) {
                         chatList.getSelectionModel().select(chat);
+                        chatVBox.getChildren().clear();
                         loadMessageToVBox(chat);
                         return;
                     }
@@ -107,7 +107,7 @@ public class MainPageController {
             ChatClient.getInstance().send(receiver.getFriendUserName(),toSend);
             Label newLabel=new Label(toSend);
             newLabel.getStyleClass().clear();
-            newLabel.getStylesheets().add(getClass().getResource("messageStyle.css").toExternalForm());
+            newLabel.getStylesheets().add(getClass().getResource("/css files/messageStyle.css").toExternalForm());
             newLabel.getStyleClass().add("messageStyle");
             HBox hbox=new HBox();
 //            newLabel.setMaxWidth(400);
@@ -132,7 +132,7 @@ public class MainPageController {
         System.out.println("adding message");
         Label label=new Label(str);
         label.getStyleClass().clear();
-        label.getStylesheets().add(getClass().getResource("messageStyle.css").toExternalForm());
+        label.getStylesheets().add(getClass().getResource("/css files/messageStyle.css").toExternalForm());
 //        label.setMaxWidth(400);
         label.setWrapText(true);
 
@@ -156,7 +156,7 @@ public class MainPageController {
             String str = chat.messages.get(i);
             Label msg = new Label(str);
             msg.getStyleClass().clear();
-            msg.getStylesheets().add(getClass().getResource("messageStyle.css").toExternalForm());
+            msg.getStylesheets().add(getClass().getResource("/css files/messageStyle.css").toExternalForm());
             msg.getStyleClass().add("messageStyle");
             msg.setWrapText(true);
             HBox hBox = new HBox();
