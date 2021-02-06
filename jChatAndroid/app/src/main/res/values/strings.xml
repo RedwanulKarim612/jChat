@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">jChatAndroid</string>
+    <string name="username_text">Username</string>
+    <string name="login_text">Log in</string>
+    <string name="password_text">Password</string>
+    <string name="go_to_sign_up_page_text">New Here? Sign up for free!</string>
+    <string name="go_to_login_page_text">Already have an account. Click to log in</string>
+    <string name="sign_up_text">Sign up</string>
+    <string name="search_hint_text">Search by username</string>
+</resources>
