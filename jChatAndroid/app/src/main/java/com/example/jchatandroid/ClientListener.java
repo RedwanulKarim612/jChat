@@ -24,9 +24,11 @@ public class ClientListener extends Thread{
             while((response = bufferedReader.readLine())!=null){
                 String []tokens=response.split(" ",4);
                 if(tokens!=null && tokens.length>0){
+                    Log.d("msg",ChatData.getInstance().newMessage + " " + response);
+
                     String cmd=tokens[0];
                     if(cmd.equals("msg")){
-                        Log.d("msg",response);
+                        ChatData.getInstance().newMessage=true;
                         boolean found=false;
                         for(Chat c:ChatData.getInstance().getChatDataList()){
                             if(c.getFriendUserName().equals(tokens[1])) {
@@ -39,8 +41,7 @@ public class ClientListener extends Thread{
                             Chat newChat=new Chat(tokens[1]);
                             newChat.addMessage(tokens[3],tokens[2]);
                             ChatData.getInstance().getChatDataList().add(newChat);
-//                            if(controller==null)
-//                                System.out.println("null controller");
+
                         }
                         }
                     }

@@ -39,4 +39,7 @@ public class Chat {
         messages.add(token);
         sender.add(msgFrom);
     }
+    public int getChatLength(){
+        return messages.size();
+    }
 }

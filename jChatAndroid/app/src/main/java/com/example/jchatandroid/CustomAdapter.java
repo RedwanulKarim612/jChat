@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-    private ArrayList<Chat> dataSet;
+    public ArrayList<Chat> dataSet;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView friendName;
@@ -44,8 +44,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.getFriendTextView().setText(dataSet.get(position).getFriendUserName());
-        holder.getChatText().setText(dataSet.get(position).getMessages().get(0));
+        Chat chat = dataSet.get(position);
+        holder.getFriendTextView().setText(chat.getFriendUserName());
+        String message = chat.getMessages().get(chat.getChatLength()-1);
+        String finalMessage;
+        if(chat.sender.get(chat.getChatLength()-1).equals(chat.getFriendUserName()))  finalMessage = chat.getFriendUserName() + " : " + message;
+        else finalMessage = "You : " + message;
+        holder.getChatText().setText(finalMessage);
     }
 
     @Override

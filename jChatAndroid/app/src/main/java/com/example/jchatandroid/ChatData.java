@@ -1,13 +1,12 @@
 package com.example.jchatandroid;
 
-
-import androidx.databinding.ObservableList;
-
 import java.util.ArrayList;
 
 public class ChatData {
     private static ChatData instance=new ChatData();
     public ArrayList<Chat> chatDataList;
+    public CustomAdapter customAdapter;
+    public boolean newMessage=false;
 
     private ChatData(){
         chatDataList = new ArrayList<Chat>();
