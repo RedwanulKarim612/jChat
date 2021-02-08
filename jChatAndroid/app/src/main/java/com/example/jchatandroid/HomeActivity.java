@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -15,8 +16,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         recyclerView= findViewById(R.id.recyclerView);
-        customAdapter = new CustomAdapter();
-        ChatData.getInstance().customAdapter = this.customAdapter;
+        customAdapter = new CustomAdapter(recyclerView);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Log.d("count", String.valueOf(customAdapter.getItemCount()));
@@ -26,15 +26,10 @@ public class HomeActivity extends AppCompatActivity {
                 while(true){
                     if(ChatData.getInstance().newMessage)
                     {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                customAdapter.notifyDataSetChanged();
-                            }
-                        });
+                        runOnUiThread(() -> customAdapter.notifyDataSetChanged());
+                        Log.d("notified","notified");
                     }
                     ChatData.getInstance().newMessage=false;
-                    Log.d("notified","notified");
                 }
             }
         });

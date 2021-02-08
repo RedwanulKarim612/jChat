@@ -22,4 +22,11 @@ public class ChatData {
         return chatDataList;
     }
 
+    public Chat getChat(String friendUsername){
+        for(Chat chat:chatDataList){
+            if(chat.getFriendUserName().equals(friendUsername)) return chat;
+        }
+
+        return null;
+    }
 }
