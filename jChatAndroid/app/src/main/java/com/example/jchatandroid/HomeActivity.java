@@ -1,5 +1,6 @@
 package com.example.jchatandroid;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,5 +35,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         t.start();
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        customAdapter.notifyDataSetChanged();
     }
 }

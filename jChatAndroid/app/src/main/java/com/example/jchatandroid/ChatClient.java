@@ -6,7 +6,7 @@ import java.net.Inet4Address;
 import java.net.Socket;
 
 public class ChatClient {
-    public static ChatClient instance=new ChatClient("192.168.0.105",5003);
+    public static ChatClient instance=new ChatClient("192.168.0.104",5003);
 
     private final String serverName;
     private final int serverPort;
@@ -16,6 +16,15 @@ public class ChatClient {
     private BufferedReader bufferedIn;
     public ClientListener clientListener;
     public String response;
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public ChatClient(String serverName, int serverPort) {
         this.serverName=serverName;
@@ -61,6 +70,7 @@ public class ChatClient {
             if(response!=null){
                 if(response.equals("signup successful")){
                     response=null;
+                    this.userName=username;
                     return true;
                 }
                 else if(response.equals("signup unsuccessful")){
@@ -84,6 +94,7 @@ public class ChatClient {
         }
 
         if(response.equals("login successful")){
+            this.userName=username;
             response=null;
             return true;
         }

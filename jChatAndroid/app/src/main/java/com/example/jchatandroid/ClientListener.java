@@ -34,6 +34,7 @@ public class ClientListener extends Thread{
                             if(c.getFriendUserName().equals(tokens[1])) {
                                 c.addMessage(tokens[3], tokens[2]);
                                 found=true;
+                                c.newMessage=true;
                                 break;
                             }
                         }
@@ -41,7 +42,7 @@ public class ClientListener extends Thread{
                             Chat newChat=new Chat(tokens[1]);
                             newChat.addMessage(tokens[3],tokens[2]);
                             ChatData.getInstance().getChatDataList().add(newChat);
-
+                            newChat.newMessage=true;
                         }
                         }
                     }

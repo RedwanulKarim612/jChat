@@ -17,6 +17,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Toast.makeText(LoginActivity.this, "created", Toast.LENGTH_SHORT).show();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         usernameText = findViewById(R.id.usernameTextViewId);

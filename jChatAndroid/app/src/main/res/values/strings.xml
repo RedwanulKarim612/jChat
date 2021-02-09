@@ -7,4 +7,5 @@
     <string name="go_to_login_page_text">Already have an account. Click to log in</string>
     <string name="sign_up_text">Sign up</string>
     <string name="search_hint_text">Search by username</string>
+    <string name="message_hint">Write your message</string>
 </resources>

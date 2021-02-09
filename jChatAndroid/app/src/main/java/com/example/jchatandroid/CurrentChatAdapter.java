@@ -1,10 +1,14 @@
 package com.example.jchatandroid;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,26 +20,37 @@ public class CurrentChatAdapter extends RecyclerView.Adapter<CurrentChatAdapter.
     CurrentChatAdapter(String name){
         this.chat=ChatData.getInstance().getChat(name);
     }
+
+    public CurrentChatAdapter(Chat chat) {
+        this.chat=chat;
+    }
+
     @NonNull
     @Override
 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item,parent,false);
+        View view;
+        if(viewType==0) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.receive_text_layout, parent, false);
+        }
+        else{
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.send_text_layout, parent, false);
+        }
         return new ViewHolder(view);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        String s=chat.getSender().get(position);
+        if(s==null) Log.d("nullex","null");
+        if(s.equals(chat.getFriendUserName())) return 0;
+        else return 1;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String message=chat.getMessages().get(position);
-        String sender = chat.getSender().get(position);
-        if(sender.equals(chat.getFriendUserName())){
-            holder.getFriendText().setText(message);
-            holder.getYourText().setVisibility(View.INVISIBLE);
-        }
-        else{
-            holder.getYourText().setText(message);
-            holder.getFriendText().setVisibility(View.INVISIBLE);
-        }
+        holder.text.setText(message);
     }
 
     @Override
@@ -44,21 +59,11 @@ public class CurrentChatAdapter extends RecyclerView.Adapter<CurrentChatAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView friendText;
-        TextView yourText;
-
-        public TextView getFriendText() {
-            return friendText;
-        }
-
-        public TextView getYourText() {
-            return yourText;
-        }
+        TextView text;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            friendText = itemView.findViewById(R.id.friendText);
-            yourText = itemView.findViewById(R.id.yourText);
+            text=itemView.findViewById(R.id.text);
         }
     }
 }

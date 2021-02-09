@@ -5,10 +5,12 @@ public class Chat {
     private String friendUserName;
     public ArrayList<String> messages;
     public ArrayList<String> sender;
+    public boolean newMessage;
     Chat(String friendUserName){
         this.friendUserName=friendUserName;
         this.messages=new ArrayList<>();
         this.sender=new ArrayList<>();
+        newMessage=false;
     }
 
     public String getFriendUserName() {
