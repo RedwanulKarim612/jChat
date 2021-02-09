@@ -56,7 +56,7 @@ public class ChatClient {
         return bufferedIn;
     }
 
-    private void logoff() throws IOException {
+    public void logoff() throws IOException {
         String cmd= "logoff";
         serverOut.write(cmd.getBytes());
 
@@ -94,6 +94,9 @@ public class ChatClient {
         }
 
         if(response.equals("login successful")){
+            if(ChatData.getInstance().getChatDataList()!=null){
+                ChatData.getInstance().getChatDataList().clear();
+            }
             this.userName=username;
             response=null;
             return true;

@@ -38,7 +38,10 @@ public class ChatViewActivity extends AppCompatActivity {
         textView.setText(friendName);
         recyclerView.setAdapter(chatAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.smoothScrollToPosition(chatAdapter.getItemCount()-1);
+        recyclerView.smoothScrollToPosition(chatAdapter.getItemCount());
+        ((LinearLayoutManager)recyclerView.getLayoutManager()).setStackFromEnd(true);
+
+
         chatAdapter.notifyDataSetChanged();
         Thread t = new Thread(new Runnable() {
             @Override
@@ -60,24 +63,22 @@ public class ChatViewActivity extends AppCompatActivity {
         });
 
         t.start();
-        if (Build.VERSION.SDK_INT >= 11) {
-            recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View v,
-                                           int left, int top, int right, int bottom,
-                                           int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    if (bottom < oldBottom) {
-                        recyclerView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                recyclerView.smoothScrollToPosition(
-                                        recyclerView.getAdapter().getItemCount() - 1);
-                            }
-                        }, 100);
-                    }
-                }
-            });
-        }
+//        recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//            @Override
+//            public void onLayoutChange(View v,
+//                                       int left, int top, int right, int bottom,
+//                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                if (bottom < oldBottom) {
+//                    recyclerView.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            recyclerView.smoothScrollToPosition(
+//                                    recyclerView.getAdapter().getItemCount() - 1);
+//                        }
+//                    }, 100);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -102,7 +103,6 @@ public class ChatViewActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 chatAdapter.notifyItemInserted(chatAdapter.getItemCount());
-                                recyclerView.smoothScrollToPosition(chatAdapter.getItemCount()-1);
                             }
                         });
                     }

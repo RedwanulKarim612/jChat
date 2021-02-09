@@ -10,22 +10,54 @@
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="350dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_hint_text"
-            android:inputType="text"
-            android:textColor="#EFDDDD"
-            android:textColorHint="#756E6E" />
+            android:paddingVertical="10dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            <TextView
+                android:layout_width="347dp"
+                android:layout_height="wrap_content"
+                android:text="@string/home_activity_title"
+                android:textAlignment="center"
+                android:textSize="25sp" />
 
-            />
+            <Button
+                android:id="@+id/logOutButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="21dp"
+                android:background="@drawable/logout_icon"
+                android:onClick="handleLogOutButton"
+
+                />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/searchText"
+                android:layout_width="348dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint_text"
+                android:inputType="text"
+                android:textColor="#EFDDDD"
+                android:textColorHint="#756E6E" />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/search_icon"
+                android:onClick="handleSearchButton"
+                android:paddingLeft="20dp"
+                />
+        </LinearLayout>
 
     </LinearLayout>
 
