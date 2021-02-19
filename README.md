@@ -1,4 +1,4 @@
-<h1>jChat<h1>
+<h1>jChat</h1>
 
 <p>
 jChat is a simple text messaging app built with JAVA. This repository contains three different projects:
