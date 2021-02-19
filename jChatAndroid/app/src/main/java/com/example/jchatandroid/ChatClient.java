@@ -6,8 +6,8 @@ import java.net.Inet4Address;
 import java.net.Socket;
 
 public class ChatClient {
-    public static ChatClient instance=new ChatClient("192.168.0.104",5003);
-
+    public static ChatClient instance=new ChatClient("ip address",5003);
+    //put the ip address of the server
     private final String serverName;
     private final int serverPort;
     private Socket socket;
