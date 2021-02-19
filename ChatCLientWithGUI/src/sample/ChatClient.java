@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class ChatClient {
     public static ChatClient instance=new ChatClient("localhost",5003);
-
+    //put the ip address of the server in place of "localhost"
     private final String serverName;
     private final int serverPort;
     private Socket socket;
